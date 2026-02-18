@@ -1,28 +1,53 @@
-export default async function ConnectAndSign() {
-  const accounts = await (window as any).ethereum.request({
-    method: "eth_requestAccounts",
-  });
+import { useState, useEffect } from "react";
 
-  const address = accounts[0];
+export default function ConnectAndSign() {
+  const [link, setLink] = useState("");
 
-  const message = "I am connecting my wallet to Slice platform";
+  useEffect(() => {
+    async function run() {
+      const accounts = await (window as any).ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      const address = accounts[0];
+      const message = "I am connecting my wallet to Slice platform";
+      const signature = await (window as any).ethereum.request({
+        method: "personal_sign",
+        params: [message, address],
+      });
+      const chainId = await (window as any).ethereum.request({
+        method: "eth_chainId",
+      });
 
-  const signature = await (window as any).ethereum.request({
-    method: "personal_sign",
-    params: [message, address],
-  });
+      setLink(
+        `slice://wallet-verified?address=${encodeURIComponent(
+          address
+        )}&signature=${encodeURIComponent(signature)}&chainId=${encodeURIComponent(chainId)}`
+      );
+    }
 
-  const chainId = await (window as any).ethereum.request({
-    method: "eth_chainId",
-  });
+    run();
+  }, []);
 
-  // Redirect back to Expo
-  window.location.href =
-    `slice://wallet-verified?address=${address}&signature=${signature}&chainId=${chainId}`;
-
-    return (
-      <>Connecting...</>
-    )
+  return (
+    <div style={{ textAlign: "center", marginTop: 50 }}>
+      <h2>Wallet Connected ✅</h2>
+      {link ? (
+        <a
+          href={link}
+          style={{
+            padding: "16px 32px",
+            background: "#3b82f6",
+            color: "white",
+            borderRadius: 12,
+            textDecoration: "none",
+            fontWeight: "bold",
+          }}
+        >
+          Return to App
+        </a>
+      ) : (
+        <p>Connecting...</p>
+      )}
+    </div>
+  );
 }
-
-// connectAndSign();
