@@ -1,4 +1,4 @@
-async function connectAndSign() {
+export default async function ConnectAndSign() {
   const accounts = await (window as any).ethereum.request({
     method: "eth_requestAccounts",
   });
@@ -19,6 +19,10 @@ async function connectAndSign() {
   // Redirect back to Expo
   window.location.href =
     `slice://wallet-verified?address=${address}&signature=${signature}&chainId=${chainId}`;
+
+    return (
+      <>Connecting...</>
+    )
 }
 
-connectAndSign();
+// connectAndSign();
