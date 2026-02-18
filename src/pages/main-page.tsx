@@ -19,7 +19,7 @@ export default function ConnectAndSign() {
       });
 
       setLink(
-        `slice://wallet-verified?address=${encodeURIComponent(
+        `http://10.53.185.15:9001/wallet-verified?address=${encodeURIComponent(
           address
         )}&signature=${encodeURIComponent(signature)}&chainId=${encodeURIComponent(chainId)}`
       );
