@@ -31,8 +31,6 @@ export default function ConnectAndSign() {
   return (
     <div style={{ textAlign: "center", marginTop: 50 }}>
       <h2>Wallet Connected ✅</h2>
-      <a href={link}>Back to app</a>
-      {link}
       {link ? (
         <a
           href={link}
