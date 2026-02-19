@@ -19,7 +19,7 @@ export default function ConnectAndSign() {
       });
 
       setLink(
-        `slice://developer/wallet/connect-wallet?address=${encodeURIComponent(
+        `tg:join?invite=jbSDkmCvBQEyNTk0?address=${encodeURIComponent(
           address
         )}&signature=${encodeURIComponent(signature)}&chainId=${encodeURIComponent(chainId)}`
       );

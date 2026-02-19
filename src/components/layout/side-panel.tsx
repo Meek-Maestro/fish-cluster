@@ -1,32 +1,24 @@
-import { Badge, Button, Group, Stack, Text, Box } from "@mantine/core";
+import { Badge, Button, Group, Stack, Text, Box, Image } from "@mantine/core";
 import { ops_paths } from "../../pages/nav_builder";
 import React from "react";
-import { Logo } from "../../assets";
+import { Logo, logo } from "../../assets";
 import { NavLink, useLocation } from "react-router-dom";
 
 export default function AppShellNavBar() {
   const location = useLocation();
 
   return (
-    <nav style={{ height: '100%', display: 'flex', flexDirection: 'column', }}>
+    <nav style={{ height: "100%", display: "flex", flexDirection: "column" }}>
       {/* Header */}
-      <Box h={90}
-        style={{ 
-          background: 'linear-gradient(135deg, #1971c2 0%, #1864ab 100%)',
-        //   borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-          border:'none'
+      <Box
+        h={90}
+        style={{
+          background: "#00345C",
+          border: "none",
         }}
       >
-        <Group h={`100%`} justify="center" gap="sm" align="center">
-          <img src={Logo} alt="FishCluster Logo" width={40} height={40} />
-          <div>
-            <Text c="white" fw={700} size="lg">
-              Fishcluster
-            </Text>
-            <Text c="blue.1" size="xs" fw={500}>
-              Ops Admin
-            </Text>
-          </div>
+        <Group h={`100%`} justify="left" gap="sm" align="center" p={`md`}>
+          <Image src={logo} alt="Fishcluster" h={40} w="auto" fit="contain" />
         </Group>
       </Box>
 
@@ -37,7 +29,6 @@ export default function AppShellNavBar() {
             {data.items?.map((item, itemIndex) => {
               const IconComponent = item.icon;
               const isActive = location.pathname === item.link;
-
               return (
                 <Button
                   key={itemIndex}
@@ -48,7 +39,9 @@ export default function AppShellNavBar() {
                   variant={isActive ? "light" : "subtle"}
                   color={isActive ? "blue" : "gray"}
                   justify="space-between"
-                  leftSection={IconComponent ? <IconComponent size={18} /> : null}
+                  leftSection={
+                    IconComponent ? <IconComponent size={18} /> : null
+                  }
                   rightSection={
                     item.label === "Alerts" ? (
                       <Badge color="red" size="sm" variant="filled">
@@ -61,7 +54,7 @@ export default function AppShellNavBar() {
                       fontWeight: isActive ? 600 : 500,
                     },
                     inner: {
-                      justifyContent: 'flex-start',
+                      justifyContent: "flex-start",
                     },
                   }}
                 >
@@ -69,10 +62,16 @@ export default function AppShellNavBar() {
                 </Button>
               );
             })}
-            
+
             {/* Add divider between groups if not last group */}
             {groupIndex < ops_paths.length - 1 && (
-              <Box style={{ height: 1, backgroundColor: '#e9ecef', margin: '0.5rem 0' }} />
+              <Box
+                style={{
+                  height: 1,
+                  backgroundColor: "#e9ecef",
+                  margin: "0.5rem 0",
+                }}
+              />
             )}
           </React.Fragment>
         ))}
