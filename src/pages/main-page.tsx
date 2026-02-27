@@ -19,14 +19,50 @@ export default function ConnectAndSign() {
       });
 
       setLink(
-        `tg:join?invite=jbSDkmCvBQEyNTk0?address=${encodeURIComponent(
+        `slice://:join?invite=jbSDkmCvBQEyNTk0?address=${encodeURIComponent(
           address
         )}&signature=${encodeURIComponent(signature)}&chainId=${encodeURIComponent(chainId)}`
       );
     }
-
     run();
   }, []);
+  useEffect(() => {
+    const sub = Linking.addEventListener("url", async (event) => {
+      const data = Linking.parse(event.url);
+
+      const address = data.queryParams?.address;
+      const signature = data.queryParams?.signature;
+      const chainId = data.queryParams?.chainId;
+
+      if (!address || !signature) return;
+
+      const message = "I am connecting my wallet to Slice platform";
+
+      const payload = {
+        walletAddress: address,
+        walletType: "metamask",
+        chainId: parseInt(chainId as string, 16),
+        signature,
+        message,
+      };
+      console.log(payload)
+      // const response = await fetch(
+      //   "YOUR_BASE_URL/api/properties/wallet/connect",
+      //   {
+      //     method: "POST",
+      //     headers: { "Content-Type": "application/json" },
+      //     body: JSON.stringify(payload),
+      //   }
+      // );
+
+      // if (response.ok) {
+      //   Alert.alert("Success", "Wallet connected!");
+      // }
+    });
+
+    return () => sub.remove();
+  }, []);
+
 
   return (
     <div style={{ textAlign: "center", marginTop: 50 }}>
